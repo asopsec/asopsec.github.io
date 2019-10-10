@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Seite 2 - noopener - security</title>
+</head>
+<body>
+  <h1>Gehen Sie zurück zur Seite 1</h1>
+  <script>
+  (function() {
+    if (window.opener) {
+      opener.location = 'https://fsb-cologne.de';
+    } else {
+      document.querySelector('h1').innerHTML = 'Der Wechsel war sicher.';
+    }
+  })();
+  </script>
+</body>
+</html>
