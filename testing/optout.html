@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Anayltics Opt Out aus 2 Properties</title>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Opt-out</h1>
+  <p>
+    Google Analytics prüft, ob ein Cookie vorhanden ist, welches das Tracking einer bestimmten Property untersagt.
+    Hat man mehrere Properties auf einer Seiter, so muss jeweils ein Cookie für eine Seite gesetzt werden.
+  </p>
+  <h2>Derzeit aktive Cookies</h2>
+  <p>
+    Im nachfolgenden werden die derzeit aktiven Opt-out-Cookies angezeigt (mit exemplarischen UA-Ids).
+    Sollten nachfolgend keine Cookies aufgeführt werden, ist kein Cookie gesetzt.
+  </p>
+  <ul class="cookies"></ul>
+  <h2>Deaktivieren des Trackings mehrerer Properties</h2>
+  <p>
+    Gehen wir davon aus, dass auf dieser Seite die beiden Properties "UA-AAAA-B" und "UA-XXXX-Y" gesetzt sind,
+    können diese mit nachfolgendem Link deaktiviert werden.
+  </p>
+  <a id="optout" href="#">Beide Properties deaktivieren</a>
+  <script>
+    (function($) {
+      $(document).ready(function() {
+        var gaProperties = [
+        'UA-AAAA-B',
+        'UA-XXXX-Y'
+        ];
+
+        function gaOptout() {
+          gaProperties.forEach(function(uaid) {
+            console.log(uaid);
+            var disableStr = 'ga-disable-' + uaid;
+            document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+            window[disableStr] = true;
+          });
+          location.reload();
+        }
+
+        gaProperties.forEach(function(uaid) {
+          var disableStr = 'ga-disable-' + uaid;
+          if(document.cookie.indexOf(disableStr + '=true') > -1) {
+            window[disableStr] = true;
+            $('.cookies').append('<li>'+disableStr+'=true</li>');
+          }
+        });
+
+        $('#optout').on('click', function(e) {
+          gaOptout();
+        });
+      });
+    })(jQuery);
+  </script>
+</body>
+</html>
